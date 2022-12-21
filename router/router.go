@@ -3,6 +3,8 @@ package router
 import (
 	"fmt"
 
+	ctl "WBABEProject-11/controller"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,24 +48,24 @@ func Index() *gin.Engine {
 
 	menu := r.Group("/menu", liteAuth())
 	{
-		menu.POST("/", NewMenuInsert)
-		menu.PUT("/", UpdateMenu)
-		menu.DELETE("/", DeleteMenu)
-		menu.GET("/", GetMenu)
+		menu.POST("/", ctl.NewMenuInsert)
+		menu.PUT("/", ctl.UpdateMenu)
+		menu.DELETE("/", ctl.DeleteMenu)
+		menu.GET("/", ctl.GetMenu)
 	}
 	
 	menuReview := r.Group("/menu/review", liteAuth()) 
 	{
-		menuReview.GET("/", GetReview)
-		menuReview.POST("/", CreateReview)
+		menuReview.GET("/", ctl.GetReview)
+		menuReview.POST("/", ctl.CreateReview)
 	}
 
 	order := r.Group("/order", liteAuth())
 	{
-		order.POST("/", CreateOrder)
-		order.PUT("/", UpdateOrder)
-		order.GET("/", GetOrder)
-		order.GET("/status", GetOrderStatus)
+		order.POST("/", ctl.CreateOrder)
+		order.PUT("/", ctl.UpdateOrder)
+		order.GET("/", ctl.GetOrder)
+		order.GET("/status", ctl.GetOrderStatus)
 	}
 
 	return r

@@ -1,4 +1,3 @@
-// request -> router -> controller -> model -> controller -> response
 package main
 
 import (
