@@ -46,24 +46,24 @@ func Index() *gin.Engine {
 
 	menu := r.Group("/menu", liteAuth())
 	{
-		menu.POST("/")
-		menu.PUT("/")
-		menu.DELETE("/")
-		menu.GET("/")
+		menu.POST("/", NewMenuInsert)
+		menu.PUT("/", UpdateMenu)
+		menu.DELETE("/", DeleteMenu)
+		menu.GET("/", GetMenu)
 	}
 	
 	menuReview := r.Group("/menu/review", liteAuth()) 
 	{
-		menuReview.GET("/")
-		menuReview.POST("/")
+		menuReview.GET("/", GetReview)
+		menuReview.POST("/", CreateReview)
 	}
 
 	order := r.Group("/order", liteAuth())
 	{
-		order.POST("/")
-		order.PUT("/")
-		order.GET("/")
-		order.GET("/status")
+		order.POST("/", CreateOrder)
+		order.PUT("/", UpdateOrder)
+		order.GET("/", GetOrder)
+		order.GET("/status", GetOrderStatus)
 	}
 
 	return r
