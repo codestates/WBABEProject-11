@@ -108,11 +108,16 @@ func (p *Model) GetMenu() {
 }
 
 // 메뉴 하나 불러오기
-func (p *Model) GetOneMenu(name string) (Menu, error) {
-	filter := bson.M{"name": name}
+func (p *Model) GetOneMenu(flag, elem string) (Menu, error) {
+	opts := []*options.FindOneOptions{}
+	
+	filter := bson.M{}
+	if flag == "name" {
+		filter = bson.M{"name": elem}
+	}
 
 	var menu Menu
-	if err := p.colMenu.FindOne(context.TODO(), filter).Decode(&menu); err != nil {
+	if err := p.colMenu.FindOne(context.TODO(), filter, opts...).Decode(&menu); err != nil {
 		return menu, err
 	} else {
 		return menu, err
