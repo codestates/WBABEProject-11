@@ -8,6 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Router struct {
+	ct *ctl.Controller
+}
+
+func NewRouter(ct *ctl.Controller) (*Router, error) {
+	r := &Router{
+		ct: ct,
+	}
+
+	return r, nil
+}
+
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
@@ -37,7 +49,7 @@ func liteAuth() gin.HandlerFunc {
 	}
 }
 
-func Index() *gin.Engine {
+func (p *Router) Index() *gin.Engine {
 	r := gin.New()
 
 	r.Use(gin.Logger())
@@ -48,24 +60,24 @@ func Index() *gin.Engine {
 
 	menu := r.Group("/menu", liteAuth())
 	{
-		menu.POST("/", ctl.NewMenuInsert)
-		menu.PUT("/", ctl.UpdateMenu)
-		menu.DELETE("/", ctl.DeleteMenu)
-		menu.GET("/", ctl.GetMenu)
+		menu.POST("/", p.ct.NewMenuInsert)
+		menu.PUT("/", p.ct.UpdateMenu)
+		menu.DELETE("/", p.ct.DeleteMenu)
+		menu.GET("/", p.ct.GetMenu)
 	}
 	
 	menuReview := r.Group("/menu/review", liteAuth()) 
 	{
-		menuReview.GET("/", ctl.GetReview)
-		menuReview.POST("/", ctl.CreateReview)
+		menuReview.GET("/", p.ct.GetReview)
+		menuReview.POST("/", p.ct.CreateReview)
 	}
 
 	order := r.Group("/order", liteAuth())
 	{
-		order.POST("/", ctl.CreateOrder)
-		order.PUT("/", ctl.UpdateOrder)
-		order.GET("/", ctl.GetOrder)
-		order.GET("/status", ctl.GetOrderStatus)
+		order.POST("/", p.ct.CreateOrder)
+		order.PUT("/", p.ct.UpdateOrder)
+		order.GET("/", p.ct.GetOrder)
+		order.GET("/status", p.ct.GetOrderStatus)
 	}
 
 	return r

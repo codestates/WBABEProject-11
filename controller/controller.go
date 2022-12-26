@@ -14,6 +14,13 @@ type Controller struct {
 	md *model.Model
 }
 
+func NewCTL(rep *model.Model) (*Controller, error) {
+	r := &Controller{
+		md: rep,
+	}
+	return r, nil
+}
+
 func (p *Controller) RespError(c *gin.Context, body interface{}, status int, err ...interface{}) {
 	bytes, _ := json.Marshal(body)
 
