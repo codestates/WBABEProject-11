@@ -62,21 +62,22 @@ func (p *Router) Index() *gin.Engine {
 	{
 		menu.POST("/", p.ct.NewMenuInsert)
 		menu.PUT("/", p.ct.UpdateMenu)
-		menu.DELETE("/", p.ct.DeleteMenu)
+		menu.DELETE("/:name", p.ct.DeleteMenu)
 		menu.GET("/", p.ct.GetMenu)
+		menu.GET("/:name", p.ct.GetOneMenu)
 	}
 	
 	menuReview := r.Group("/menu/review", liteAuth()) 
 	{
-		menuReview.GET("/", p.ct.GetReview)
-		menuReview.POST("/", p.ct.CreateReview)
+		menuReview.GET("/:name", p.ct.GetReview)
+		menuReview.POST("/", p.ct.NewReviewInsert)
 	}
 
 	order := r.Group("/order", liteAuth())
 	{
-		order.POST("/", p.ct.CreateOrder)
+		order.POST("/", p.ct.NewOrderInsert)
 		order.PUT("/", p.ct.UpdateOrder)
-		order.GET("/", p.ct.GetOrder)
+		order.GET("/:name", p.ct.GetOrder)
 		order.GET("/status", p.ct.GetOrderStatus)
 	}
 

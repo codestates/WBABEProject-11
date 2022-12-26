@@ -68,10 +68,6 @@ type Menu struct {
 	Stock int `json:"stock" bson:"stock"`
 	Origin string `json:"origin" bson:"origin"`
 	Price int `json:"price" bson:"price"`
-	Rating int `json:"rating" bson:"rating"`
-	OrderNumber int `json:"orderNumber" bson:"ordernumber"`
-	ReorderNumber int `json:"reordernumber" bson:"reordernumber"`
-	Review string `json:"review" bson:"review"`
 }
 
 ```
@@ -84,6 +80,17 @@ type Order struct {
 	Phone string `json:"phone" bson:"phone"`
 	Address	string `json:"address" bson:"address"`
 	Status int `json:"status" bson:"status"`
+}
+
+```
+
+```
+// Review DB
+type Review struct {
+	Name string `json:"name" bson:"name"`
+	Rating int `json:"rating" bson:"rating"`
+	OrderNumber int `json:"orderNumber" bson:"ordernumber"`
+	Review string `json:"review" bson:"review"`
 }
 
 ```

@@ -14,6 +14,7 @@ type Model struct {
 	client *mongo.Client
 	colMenu *mongo.Collection
 	colOrder *mongo.Collection
+	colReview *mongo.Collection
 }
 
 // 이것을 이렇게 구조를 가져가도 되나?
@@ -23,10 +24,6 @@ type Menu struct {
 	Stock int `json:"stock" bson:"stock"`
 	Origin string `json:"origin" bson:"origin"`
 	Price int `json:"price" bson:"price"`
-	Rating int `json:"rating" bson:"rating"`
-	OrderNumber int `json:"orderNumber" bson:"ordernumber"`
-	ReorderNumber int `json:"reordernumber" bson:"reordernumber"`
-	Review string `json:"review" bson:"review"`
 }
 
 type Order struct {
@@ -35,6 +32,14 @@ type Order struct {
 	Phone string `json:"phone" bson:"phone"`
 	Address	string `json:"address" bson:"address"`
 	Status int `json:"status" bson:"status"`
+}
+
+type Review struct {
+	Name string `json:"name" bson:"name"`
+	Menu string `json:"menu" bson:"menu"`
+	Rating int `json:"rating" bson:"rating"`
+	OrderNumber int `json:"orderNumber" bson:"ordernumber"`
+	Review string `json:"review" bson:"review"`
 }
 
 func NewModel() (*Model, error) {
@@ -89,7 +94,7 @@ func (p *Model) DeleteMenu(name string) error {
 }
 
 // 추가 조사 필요
-func (p *Model) GetMenu() {
+func (p *Model) GetMenu() (Menu, error) {
 	filter := bson.D{}
 	cursor, err := p.colMenu.Find(context.TODO(), filter)
 	if err != nil {
@@ -105,6 +110,7 @@ func (p *Model) GetMenu() {
 		}
 		fmt.Printf("%s\n", output)
 	}
+	return result, err
 }
 
 // 메뉴 하나 불러오기
@@ -125,26 +131,23 @@ func (p *Model) GetOneMenu(flag, elem string) (Menu, error) {
 }
 
 // 리뷰만 불러올 수 있도록 세팅 필요
-func (p *Model) GetReview() {
-	filter := bson.D{}
-	cursor, err := p.colMenu.Find(context.TODO(), filter)
-	if err != nil {
-		panic(err)
+func (p *Model) GetReview(flag, elem string) (Review, error) {
+	opts := []*options.FindOneOptions{}
+	var filter bson.M
+	if flag == "name" {
+		filter = bson.M{"name": elem}
 	}
 
-	var menu []Menu
-	for _, result := range menu {
-		cursor.Decode(&result)
-		output, err := json.MarshalIndent(result, "", "   ")
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("%s\n", output)
+	var reviews Review
+	if err := p.colOrder.FindOne(context.TODO(), filter, opts...).Decode(&reviews); err != nil {
+		return reviews, err
+	} else {
+		return reviews, nil
 	}
 }
 
 func (p *Model) CreateReview(menu Menu) error {
-	if _, err := p.colMenu.InsertOne(context.TODO(), menu); err != nil {
+	if _, err := p.colReview.InsertOne(context.TODO(), menu); err != nil {
 		fmt.Println("fail insert new review")
 		return fmt.Errorf("fail, insert new review")
 	}
@@ -173,23 +176,20 @@ func (p *Model) UpdateOrder(name, menu string) error {
 	return nil
 }
 
-func (p *Model) GetOrder() {
-	filter := bson.D{}
-	cursor, err := p.colOrder.Find(context.TODO(), filter)
-	if err != nil {
-		panic(err)
-	}
+func (p *Model) GetOrder(flag, elem string) (Order, error) {	
+	opts := []*options.FindOneOptions{}
 
-	var order []Order
-	for _, result := range order {
-		cursor.Decode(&result)
-		output, err := json.MarshalIndent(result, "", "   ")
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("%s\n", output)
-	}
+	var filter bson.M
+	if flag == "name" {
+		filter = bson.M{"name": elem}
+	} 
 
+	var orders Order
+	if err := p.colOrder.FindOne(context.TODO(), filter, opts...).Decode(&orders); err != nil {
+		return orders, err
+	} else {
+		return orders, nil
+	}
 }
 
 func (p *Model) GetOrderStatus(name string) (Order, error) {
