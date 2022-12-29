@@ -318,3 +318,10 @@ func (p *Controller) GetOrder(c *gin.Context) {
 func (p *Controller) GetOrderStatus(c *gin.Context) {
 
 }
+
+/* [코드리뷰]
+ * 해당 파일에서 모든 controller 작업을 명시에주어, 하나의 파일로 관리를 하고 있습니다.
+ * 가능하다면, 해당 파일을 주문자와, 피주문자의 API 나누어서 각각 파일 단위로 다르게 관리해주시는 것을 추천드립니다.
+ * controller 폴더 내에서 user의 성격에 따라 controller를 파일단위로 관리하는 방법은
+ * 실제 현업에서도 많이 사용됩니다. 추후에 문제가 발생했을 때 유지보수하는 측면에서도 이점을 가질 수 있습니다.
+ */
