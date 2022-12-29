@@ -41,6 +41,13 @@ type Review struct {
 	OrderNumber int `json:"orderNumber" bson:"ordernumber"`
 	Review string `json:"review" bson:"review"`
 }
+/* [코드리뷰]
+ * 서비스에 필요한 모델들을 struct를 통해 잘 구현해주셨습니다.
+ * 각 모델들의 특성에 맞게 변경된 상태일 경우를 관리하는 Time, Bool 형식의 속성들이 조금 더 추가되면 
+ * 코드가 보다 견고해질 것으로 보여집니다.
+ ex) Order의 경우, IsCancled, Review의 경우, IsDeleted
+ * 이외에도 각 model의 생성과, 관리를 위해 IsCreated와 IsUpdated라는 속성을 추가해주어도 좋습니다.
+ */
 
 func NewModel() (*Model, error) {
 	r := &Model{}
