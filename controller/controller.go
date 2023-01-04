@@ -36,7 +36,19 @@ func (p *Controller) RespError(c *gin.Context, body interface{}, status int, err
 	c.Abort()
 }
 
-// menu와 review 구조를 어떻게 가져갈 것인가?
+// NewMenuInsert godoc
+// @Summary call NewMenuInsert, return ok by json
+// @Description api test를 위한 기능
+// @name NewMenuInsert
+// @Accept json
+// @Produce json
+// @Param name path string true "Menu name"
+// @Param soldout path string true "Menu soldout"
+// @Param stock path string true "Menu stock"
+// @Param origin path string true "Menu origin"
+// @Param price path string true "Menu price"
+// @Router /menu [post]
+// @Success 200 {object} Controller
 func (p *Controller) NewMenuInsert(c *gin.Context) {
 	name := c.PostForm("name")
 	soldout := c.PostForm("soldout")

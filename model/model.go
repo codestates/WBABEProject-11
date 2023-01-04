@@ -17,7 +17,6 @@ type Model struct {
 	colReview *mongo.Collection
 }
 
-// 이것을 이렇게 구조를 가져가도 되나?
 type Menu struct {
 	Name string `json:"name" bson:"name"`
 	Soldout int `json:"soldout" bson:"soldout"`
@@ -94,7 +93,7 @@ func (p *Model) DeleteMenu(name string) error {
 }
 
 // 추가 조사 필요
-func (p *Model) GetMenu() (Menu, error) {
+func (p *Model) GetMenu() ([]Menu, error) {
 	filter := bson.D{}
 	cursor, err := p.colMenu.Find(context.TODO(), filter)
 	if err != nil {
@@ -110,7 +109,7 @@ func (p *Model) GetMenu() (Menu, error) {
 		}
 		fmt.Printf("%s\n", output)
 	}
-	return result, err
+	return menu, err
 }
 
 // 메뉴 하나 불러오기
@@ -146,7 +145,7 @@ func (p *Model) GetReview(flag, elem string) (Review, error) {
 	}
 }
 
-func (p *Model) CreateReview(menu Menu) error {
+func (p *Model) CreateReview(menu Review) error {
 	if _, err := p.colReview.InsertOne(context.TODO(), menu); err != nil {
 		fmt.Println("fail insert new review")
 		return fmt.Errorf("fail, insert new review")

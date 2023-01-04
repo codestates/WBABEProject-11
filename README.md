@@ -39,17 +39,18 @@ go run main.go
 // 메뉴
 POST /menu -> 메뉴 추가
 PUT /menu -> 메뉴 업데이트
-DELETE /menu -> 메뉴 삭제
-GET  /menu -> 메뉴 조회
+DELETE /menu/:name -> 메뉴 삭제
+GET /menu/ -> 메뉴 전체 조회
+GET  /menu/:name -> 메뉴 조회
 
 // 메뉴 리뷰
-GET /menu/review -> 리뷰 조회
+GET /menu/review/:name -> 리뷰 조회
 POST /menu/review -> 리뷰 작성
 
 // 주문
 POST /order -> 주문 추가
 PUT /order -> 주문 업데이트
-GET  /order -> 주문 조회
+GET  /order/:name -> 주문 조회
 GET  /order/status -> 주문 상태 조회
 
 ```

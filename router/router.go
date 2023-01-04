@@ -4,8 +4,13 @@ import (
 	"fmt"
 
 	ctl "WBABEProject-11/controller"
+	"WBABEProject-11/docs"
+	"WBABEProject-11/logger"
 
 	"github.com/gin-gonic/gin"
+	swgFiles "github.com/swaggo/files"
+	ginSwg "github.com/swaggo/gin-swagger"
+	// "github.com/swaggo/swag/example/basic/docs"
 )
 
 type Router struct {
@@ -52,11 +57,14 @@ func liteAuth() gin.HandlerFunc {
 func (p *Router) Index() *gin.Engine {
 	r := gin.New()
 
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+	r.Use(logger.GinLogger())
+	r.Use(logger.GinRecovery(true))
 	r.Use(CORS())
 
+	logger.Info("start server")
 	r.GET("/health")
+	r.GET("/swagger/:any", ginSwg.WrapHandler(swgFiles.Handler)) 
+	docs.SwaggerInfo.Host = "localhost"
 
 	menu := r.Group("/menu", liteAuth())
 	{

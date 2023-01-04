@@ -1,0 +1,46 @@
+definitions:
+  controller.Controller:
+    type: object
+info:
+  contact: {}
+paths:
+  /menu:
+    post:
+      consumes:
+      - application/json
+      description: api test를 위한 기능
+      parameters:
+      - description: Menu name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Menu soldout
+        in: path
+        name: soldout
+        required: true
+        type: string
+      - description: Menu stock
+        in: path
+        name: stock
+        required: true
+        type: string
+      - description: Menu origin
+        in: path
+        name: origin
+        required: true
+        type: string
+      - description: Menu price
+        in: path
+        name: price
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.Controller'
+      summary: call NewMenuInsert, return ok by json
+swagger: "2.0"

@@ -1,0 +1,70 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/menu": {
+            "post": {
+                "description": "api test를 위한 기능",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "call NewMenuInsert, return ok by json",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu soldout",
+                        "name": "soldout",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu stock",
+                        "name": "stock",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu origin",
+                        "name": "origin",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu price",
+                        "name": "price",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller.Controller"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller.Controller": {
+            "type": "object"
+        }
+    }
+}
